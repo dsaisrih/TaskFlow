@@ -1,58 +1,23 @@
-import { useState, useEffect } from 'react'
-import { onAuthStateChanged } from './store'
-import { Logo } from './components/Logo'
-import { AddTodo } from './components/AddTodo'
-import { TodoList } from './components/TodoList'
-import { Auth } from './components/Auth'
-import './App.css'
+import Logo from './components/Logo';
+import TodoList from './components/TodoList';
 
-function App() {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged((currentUser: any) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return unsubscribe;
-  }, []);
-
-  if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div></div>;
-
+export default function App() {
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-12 relative overflow-hidden">
-      {/* Premium ambient light spots */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-600/20 blur-[120px] pointer-events-none"></div>
-
-      <div className="max-w-3xl mx-auto relative z-10 animate-fade-in">
+    <div className="min-h-screen bg-[#050505] text-white font-['Outfit'] antialiased">
+      <div className="max-w-lg mx-auto px-4 py-10">
         {/* Header */}
-        <div className="mb-10 sm:mb-14 flex flex-col items-center animate-slide-up">
+        <div className="mb-8">
           <Logo />
-          <p className="text-center text-gray-400 mt-4 text-sm sm:text-base font-light tracking-wide max-w-md">
-            Real-time task synchronization powered by Firebase Engine
+          <p className="mt-2 text-sm text-white/40 ml-12">
+            Real-time tasks, synced instantly
           </p>
         </div>
 
-        <Auth user={user} />
-
-        {/* Main Content */}
-        {user ? (
-          <div className="glass-panel rounded-3xl p-6 sm:p-10 animate-slide-up" style={{animationDelay: '0.1s'}}>
-            <AddTodo />
-            <div className="mt-8">
-              <TodoList />
-            </div>
-          </div>
-        ) : (
-          <div className="text-center text-gray-500 mt-12 text-sm uppercase tracking-[0.2em] animate-slide-up" style={{animationDelay: '0.2s'}}>
-            Please Log In To Manage Tasks
-          </div>
-        )}
+        {/* Main card */}
+        <div className="bg-white/[0.03] border border-white/8 rounded-2xl p-5 shadow-xl">
+          <TodoList />
+        </div>
       </div>
     </div>
-  )
+  );
 }
-
-export default App
